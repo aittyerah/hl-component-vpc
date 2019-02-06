@@ -256,10 +256,11 @@ CloudFormation do
     Export FnSub("${EnvironmentName}-#{component_name}-SecurityGroupBackplane")
   }
 
-  subnet_list.each {|name|
-    Output(name) {
-      Value(FnJoin('', ['Subnet', Ref(name)]))
-      Export FnSub("${EnvironmentName}-#{component_name}-#{name}")
+  subnet_list.each {|subnet_name|
+    Output(subnet_name) {
+      subnet_name_az = "Subnet#{subnet_name}"
+      Value(Ref(subnet_name_az))
+      Export FnSub("${EnvironmentName}-#{component_name}-#{subnet_name}")
     }
   }
 
