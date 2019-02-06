@@ -258,7 +258,7 @@ CloudFormation do
 
   subnet_list.each {|name|
     Output(name) {
-      Value(Ref(name))
+      Value(FnJoin('', ['Subnet', Ref(name)]))
       Export FnSub("${EnvironmentName}-#{component_name}-#{name}")
     }
   }
