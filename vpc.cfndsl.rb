@@ -255,7 +255,7 @@ CloudFormation do
 
   subnets.each_with_index {|name, config, index|
     Output("Subnet#{config['name']}#{index}") {
-      Value(Ref('Subnet#{config['name']}#{index}'))
+      Value(Ref("Subnet#{config['name']}#{index}"))
       Export FnSub("${EnvironmentName}-#{component_name}-Subnet#{config['name']}#{index}")
     }
   }
