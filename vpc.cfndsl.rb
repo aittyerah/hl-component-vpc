@@ -253,6 +253,13 @@ CloudFormation do
     Export FnSub("${EnvironmentName}-#{component_name}-SecurityGroupBackplane")
   }
 
+  subnets.each_with_index {|name, config, index|
+    Output("Subnet#{name}#{index}") {
+      Value(Ref('Subnet#{name}#{index}'))
+      Export FnSub("${EnvironmentName}-#{component_name}-Subnet#{name}#{index}")
+    }
+  }
+
   nat_ip_list = nat_gateway_ips_list_internal(maximum_availability_zones)
   Output('NatGatewayIps') {
     Value(FnJoin(',', nat_ip_list))
