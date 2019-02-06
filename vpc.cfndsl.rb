@@ -158,7 +158,7 @@ CloudFormation do
 
 
   # Create defined subnets
-  subnets.each {|name, config|
+  subnet_list = subnets.each {|name, config|
     az_create_subnets(
         config['allocation'],
         config['name'],
@@ -253,10 +253,10 @@ CloudFormation do
     Export FnSub("${EnvironmentName}-#{component_name}-SecurityGroupBackplane")
   }
 
-  subnets.each_with_index {|name, config, index|
-    Output("Subnet#{config['name']}#{index}") {
-      Value(Ref("Subnet#{config['name']}#{index}"))
-      Export FnSub("${EnvironmentName}-#{component_name}-Subnet#{config['name']}#{index}")
+  subnet_list.each {|name|
+    Output(name) {
+      Value(Ref("Subnet#{config['name']}"))
+      Export FnSub("${EnvironmentName}-#{component_name}-#{name}")
     }
   }
 
