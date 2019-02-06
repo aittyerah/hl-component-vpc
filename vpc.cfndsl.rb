@@ -158,14 +158,17 @@ CloudFormation do
 
 
   # Create defined subnets
-  subnet_list = subnets.each {|name, config|
-    az_create_subnets(
+  subnet_list = []
+  subnets.each {|name, config|
+    subnet = az_create_subnets(
         config['allocation'],
         config['name'],
         config['type'],
         'VPC',
         maximum_availability_zones
     )
+
+    subnet_list << subnet
   }
 
   route_tables = az_conditional_resources_internal('RouteTablePrivate', maximum_availability_zones)
